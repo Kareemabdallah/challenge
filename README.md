@@ -14,6 +14,13 @@ It is initially forked from the [cicdexample](https://github.com/cishiv/cicdexam
 
 I followed another Approach using docker-compose as an automation tool for deploying the applications. For more info. about it and dependencies & Installation requirements could be found under: [Microservice challenge](https://github.com/Kareemabdallah/Microservice_Challenge)
 
+For this Approach, build script is used to build the an Go App which run the application under localhost:9000.
+Using 2-stage Dockerfile, It will first create a builder image with the entire contents of the local directory copied into */build* directory, which will then produce a binary called *challenege*.
+
+The second stage creates the image will run based on Alpine image.
+
+Building the builder with ```go build -o challenge```
+
 ## Rolling upgrade && Scaling out
 
 we can use Kubernetes Rolling updates for rolling upgrades performed with zero-downtime by incrementally updating Pods instances with new ones. first by defining a yaml file such as the format below: 
