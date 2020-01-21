@@ -1,6 +1,6 @@
-# challenge
+# Challenge
 
-This Repo is to: 
+This repository is meant to do: 
 
 * Implement a piece of software exposing a JSON documen when visited with a HTTP client.
 * Dockerizing the application.
