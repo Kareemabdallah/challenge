@@ -21,6 +21,8 @@ The second stage creates the image will run based on Alpine image.
 
 Building the builder with ```go build -o challenge```
 
+Finally builder could be run using ```./challenge```
+
 ## Rolling upgrade && Scaling out
 
 we can use Kubernetes Rolling updates for rolling upgrades performed with zero-downtime by incrementally updating Pods instances with new ones. first by defining a yaml file such as the format below: 
