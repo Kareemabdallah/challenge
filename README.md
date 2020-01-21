@@ -19,6 +19,12 @@ Using 2-stage Dockerfile, It will first create a builder image with the entire c
 
 The second stage creates the image will run based on Alpine image.
 
+## Containerisation
+
+Building the docker image command need to be run ```./build build docker```. Then we could Minikube the app using the command Using ```kubectl apply -f deploy.yml```
+
+## Automation
+
 Building the builder with ```go build -o challenge```
 
 Finally builder could be run using ```./challenge```
