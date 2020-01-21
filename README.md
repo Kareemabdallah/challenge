@@ -14,14 +14,14 @@ It is initially forked from the [cicdexample](https://github.com/cishiv/cicdexam
 
 I followed another Approach using docker-compose as an automation tool for deploying the applications. For more info. about it and dependencies & Installation requirements could be found under: [Microservice challenge](https://github.com/Kareemabdallah/Microservice_Challenge)
 
+## Go application
 For this Approach, build script is used to build the an Go App which run the application under localhost:9000.
 Using 2-stage Dockerfile, It will first create a builder image with the entire contents of the local directory copied into */build* directory, which will then produce a binary called *challenege*.
 
-The second stage creates the image will run based on Alpine image.
 
 ## Containerisation
 
-Building the docker image command need to be run ```./build build docker```. Then we could Minikube the app using the command Using ```kubectl apply -f deploy.yml```
+The second stage creates the image will run based on Alpine image. It will create a user *appuser* uses */app* as home directory. Image can be tested by running ```docker build -t app1:rest .```. Building the docker image command need to be run ```./build build docker```. Then we could Minikube the app using the command Using ```kubectl apply -f deploy.yml```
 
 ## Automation
 
