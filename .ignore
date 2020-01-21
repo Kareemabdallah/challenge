@@ -1,0 +1,14 @@
+pipeline
+cicdexample
+builder
+flask
+flaskenv
+*.pyc
+*.pyo
+env/
+env*
+dist/
+build/
+.cache/
+.pytest_cache/
+docs/_build/
