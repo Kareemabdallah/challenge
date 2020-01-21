@@ -12,7 +12,7 @@ This repository is meant to do:
 
 It is initially forked from the [cicdexample](https://github.com/cishiv/cicdexample) example. Making use of the build script which will automate the building of the first application, dockerizing it and putting it in minikube.
 
-For more info about the dependencies are found under: [Microservice challenge](https://github.com/Kareemabdallah/Microservice_Challenge)
+For more info about the dependencies & Installation are found under: [Microservice challenge](https://github.com/Kareemabdallah/Microservice_Challenge)
 
 ## Rolling upgrade && Scaling out
 
