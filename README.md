@@ -2,16 +2,17 @@
 
 This repository is meant to do: 
 
-* Implement a piece of software exposing a JSON documen when visited with a HTTP client.
-* Dockerizing the application.
-* MiniKubing it. 
-* Implements second App utilizing the first and displays reversed message string.
-* Automating the deployment with a script.
-* ensuring running multiple instances of the application.
+* Implement a piece of software exposing a JSON documen when visited with a HTTP client
+* Dockerizing the application
+* MiniKubing it
+* Implements second App utilizing the first and displays reversed message string
+* Automating the deployment with a script
+* ensuring running multiple instances of the application
 * organize regular application upgrades
 
 It is initially forked from the [cicdexample](https://github.com/cishiv/cicdexample) example. Making use of the build script which will automate the building of the first application, dockerizing it and putting it in minikube.
 
+For more info about the dependencies are found under: [GitHub Pages](https://github.com/Kareemabdallah/Microservice_Challenge)
 
 ## Rolling upgrade && Scaling out
 
