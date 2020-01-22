@@ -1,11 +1,21 @@
 package main
 
 import (
-	"encoding/json" // import encoding/json package
-	"fmt"           // import formatted I/O
-	"log"           // import logging
-	"net/http"      // import HTTP implem.
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
 )
+
+type Articles struct {
+	Articles []Article `json:"articles"`
+}
+
+type Article struct {
+	id      string `json:"id"`
+	message string `json:"message"`
+}
 
 func main() {
 	resp, err := http.Get("http://localhost:9000/articles")
@@ -13,17 +23,21 @@ func main() {
 		log.Fatal(err)
 	}
 	var generic map[string]interface{}
-	err = json.NewDecoder(resp.Body).Decode(&generic)
+	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(generic)
+	json.Unmarshal([]byte(body), &generic)
+
+	str := fmt.Sprint(generic["articles"]) //converting data type interface to string
+	str1 := Reverse(str)
+	fmt.Println(str1)
 }
 
 func Reverse(s string) string {
-	runes := []rune(s)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
+	r := []rune(s)
+	for i, j := 0, len(r)-1; i < len(r)/2; i, j = i+1, j-1 {
+		r[i], r[j] = r[j], r[i]
 	}
-	return string(runes)
+	return string(r)
 }
