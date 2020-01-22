@@ -1,4 +1,8 @@
-{ 
+{
+  "articles":[ 
+    { 
     "id": "1",
     "message": "Hello world"
+    }
+]
 }
