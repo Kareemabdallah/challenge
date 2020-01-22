@@ -8,7 +8,7 @@ ENV GO111MODULE=on
 ENV PORT=9000
 RUN go get -u github.com/gorilla/mux
 RUN go get -d -v
-RUN go build -o app1 .
+RUN go build -o challenge .
 # Stage 2
 FROM alpine
 RUN adduser -S -D -H -h /app appuser
