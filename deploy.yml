@@ -9,11 +9,19 @@ metadata:
     io.kompose.service: app1
   name: app1
 spec:
+  matchLabels:
+    app: app1
+    tier: app1
+    track: stable
   replicas: 1
   strategy:
     type: Recreate
   template:
     metadata:
+      labels:
+        app: app1
+        tier: app1
+        track: stable
       annotations:
         kompose.cmd: kompose convert
         kompose.version: 1.20.0 (f3d54d784)
