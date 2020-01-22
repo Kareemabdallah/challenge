@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
@@ -28,14 +28,14 @@ spec:
         ports:
         - containerPort: 9000
         resources: {}
-        volumeMounts:
-        - mountPath: /app
-          name: app1-claim0
+        #volumeMounts:
+        #- mountPath: /app
+         # name: app1-claim0
       restartPolicy: Always
-      volumes:
-      - name: app1-claim0
-        persistentVolumeClaim:
-          claimName: app1-claim0
+      #volumes:
+      #- name: app1-claim0
+       # persistentVolumeClaim:
+        #  claimName: app1-claim0
 status: {}
 ---
     apiVersion: v1
@@ -57,3 +57,4 @@ spec:
     io.kompose.service: app1
 status:
   loadBalancer: {}
+---
