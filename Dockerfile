@@ -4,6 +4,8 @@ RUN apk update && apk add --no-cache git
 RUN mkdir /build 
 ADD . /build/
 WORKDIR /build
+ENV PORT=9000
+RUN go get -u github.com/gorilla/mux
 RUN go get -d -v
 RUN go build -o challenge .
 # Stage 2
