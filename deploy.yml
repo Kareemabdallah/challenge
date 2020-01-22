@@ -9,6 +9,7 @@ metadata:
     io.kompose.service: app1
   name: app1
 spec:
+  selector:
   matchLabels:
     app: app1
     tier: app1

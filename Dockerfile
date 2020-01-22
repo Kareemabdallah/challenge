@@ -7,7 +7,7 @@ WORKDIR /build
 ENV PORT=9000
 RUN go get -u github.com/gorilla/mux
 RUN go get -d -v
-RUN go build -o challenge .
+RUN go build -o app1 .
 # Stage 2
 FROM alpine
 RUN adduser -S -D -H -h /app appuser
