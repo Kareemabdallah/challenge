@@ -1,69 +1,39 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert
-    kompose.version: 1.20.0 (f3d54d784)
-  creationTimestamp: null
-  labels:
-    io.kompose.service: app1
   name: app1
 spec:
   selector:
-  matchLabels:
-    app: app1
-    tier: app1
-    track: stable
-  replicas: 1
-  strategy:
-    type: Recreate
+    matchLabels:
+      app: app1
+      tier: app1
+      track: stable
   template:
     metadata:
       labels:
         app: app1
         tier: app1
         track: stable
-      annotations:
-        kompose.cmd: kompose convert
-        kompose.version: 1.20.0 (f3d54d784)
-      creationTimestamp: null
-      labels:
-        io.kompose.network/net_deploy: "true"
-        io.kompose.service: app1
     spec:
       containers:
-      - image: app1
-        name: app1
-        ports:
-        - containerPort: 9000
-        resources: {}
-        #volumeMounts:
-        #- mountPath: /app
-         # name: app1-claim0
-      restartPolicy: Always
-      #volumes:
-      #- name: app1-claim0
-       # persistentVolumeClaim:
-        #  claimName: app1-claim0
-status: {}
+        - name: app1
+          image: "app1:test"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 9000
 ---
-    apiVersion: v1
+apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    kompose.cmd: kompose convert
-    kompose.version: 1.20.0 (f3d54d784)
-  creationTimestamp: null
-  labels:
-    io.kompose.service: app1
   name: app1
 spec:
-  ports:
-  - name: "9000"
-    port: 9000
-    targetPort: 9000
+  type: NodePort
   selector:
-    io.kompose.service: app1
-status:
-  loadBalancer: {}
----
+    app: app1
+    tier: app1
+  ports:
+  - protocol: TCP
+    port: 9000
+    targetPort: http
+    nodePort: 30000
