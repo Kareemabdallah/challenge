@@ -1,0 +1,14 @@
+language: go
+sudo: false
+go: "1.10"
+env:
+  - GO111MODULE=on
+
+  go_import_path: GOPATH/src/challenge
+  
+before_install:
+    - go get github.com/gorilla/mux
+
+    script:
+        - go run app_1/app1.go
+        - ./.travis.gofmt.sh
