@@ -1,29 +1,18 @@
 # .travis.yml
+
 language: go
-
 sudo: false
-
 go: "1.10"
-
-os:
-    -linux
-
+os: linux
 dist: trusty
-
 sudo: required
-
 install: true
-
 env: GO111MODULE=on
-
 go_import_path: GOPATH/src/challenge
-
 before_install:
     - go get github.com/gorilla/mux
-
 install:
     - go mod download
-
     script:
         - go build /app_1/app1.go
         - go test /app_1/app1.go
