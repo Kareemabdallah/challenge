@@ -1,20 +1,40 @@
-# .travis.yml
-
 language: go
-sudo: false
-go: "1.10"
-os: linux
-dist: trusty
-sudo: required
-install: true
-env: GO111MODULE=on
-go_import_path: GOPATH/src/challenge
-before_install:
-    - go get github.com/gorilla/mux
+go: 1.8
+jobs:
+  allow_failures:
+  - go: master
+  fast_finish: true
 install:
-    - go mod download
-    script:
-        - go build /app_1/app1.go
-        - go test /app_1/app1.go
-
-
+    - # skip
+script:
+    - go get -t -v ./...
+    - diff -u <(echo -n) <(gofmt -d -s .)
+    - go tool vet .
+    - go test -v -race ./...
+sudo: required
+services:
+- docker
+env:
+  global:
+  - REGISTRY_USER=snake007
+    REGISTRY_PASS=
+  - secure: rCKdudahRC5OEWoQCBe1eQGktziGqHQPjDafIuxPDymo5f7YSXuOhAWH/RU+9zZpeotc4I+yJe+NPBGQTaA0p6yCLprjHcLTDkNN3C2cYCDptutzv6CUYOesH9OeUkv3yaUTqBAy3yXUgUpO5BkBrtpUrvaLNSTpC9ksZyw1Z81+u380vWRK+dupPYfQyy86rSLq+HAOOFYBnSOykYmkxUvT6KjkWcFypbHW37z+XdiTcdVXEaTj0oCkAQwothOUzdtSOSQQ8A9MwBn8vIXiTWlME6B7TD4XkB7ga1Dt+5O7CLOjt1AFQeEmNNo3q5XnC6kYU/s+7etNFFR/A4ksOi3jsPl9P+kNgaMNQU/tyvD51yEqmEv46GepoFerDd2/YKDCZB8yM7yGLQkT6Ug/J0jDzSct38drKIN48SbZCL/msvS9DrRj2rnlaTcwpD5tHsXzAMOeri9HS0irkE98RcOP4WA3rHKyMx0/NI+EanKacuvKPWi4tl/ZNDIBtNNuw7R7E7UYDL1caKw2D4IkBgAtIFfrNFyjYzG9/4KvYQ/6+sfrPi9oSwzm/kNgK67M2QzgW9sHBvq3Sk1JUL6ofVp7L40mx8AC69XCvSQIk2CzZw8xJ8nvZcibYq5Q2nva0nUN/j8QUbJCeDLDupALvGvzqvlPwhFf0ANDS1Gcv4w=
+before_script:
+  - docker pull snakehomeorganization/app1 || true
+  - docker pull snakehomeorganization/app2 || true
+script:
+  - docker build --pull --cache-from snakehomeorganization/app1 --tag snakehomeorganization/app1 -f Dockerfile .
+  - docker build --pull --cache-from snakehomeorganization/app1 --tag snakehomeorganization/app2 -f Dockerfile2 .
+  - docker run -dti --rm -p 9000:9000 snakehomeorganization/app1
+  - docker run -dti --rm -p 7000:7000 snakehomeorganization/app2
+after_script:
+- docker images
+before_deploy:
+- docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
+deploy:
+  provider: script
+  script:
+  - docker push snakehomeorganization/app1
+  - docker push snakehomeorganization/app2
+  on:
+    branch: master

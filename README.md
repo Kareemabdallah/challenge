@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Kareemabdallah/challenge.svg?branch=master)](https://travis-ci.org/Kareemabdallah/challenge)
+
 # Challenge
 
 This repository is meant to do: 
