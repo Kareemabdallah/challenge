@@ -5,28 +5,24 @@ jobs:
   - go: master
   fast_finish: true
 install:
-    - # skip
+- 
 script:
-    - go get -t -v ./...
-    - diff -u <(echo -n) <(gofmt -d -s .)
-    - go tool vet .
-    - go test -v -race ./...
+- docker build --pull --cache-from snakehomeorganization/app1 --tag snakehomeorganization/app1
+  -f Dockerfile .
+- docker build --pull --cache-from snakehomeorganization/app1 --tag snakehomeorganization/app2
+  -f Dockerfile2 .
+- docker run -dti --rm -p 9000:9000 snakehomeorganization/app1
+- docker run -dti --rm -p 7000:7000 snakehomeorganization/app2
 sudo: required
 services:
 - docker
 env:
   global:
-  - REGISTRY_USER=snake007
-    REGISTRY_PASS=
-  - secure: rCKdudahRC5OEWoQCBe1eQGktziGqHQPjDafIuxPDymo5f7YSXuOhAWH/RU+9zZpeotc4I+yJe+NPBGQTaA0p6yCLprjHcLTDkNN3C2cYCDptutzv6CUYOesH9OeUkv3yaUTqBAy3yXUgUpO5BkBrtpUrvaLNSTpC9ksZyw1Z81+u380vWRK+dupPYfQyy86rSLq+HAOOFYBnSOykYmkxUvT6KjkWcFypbHW37z+XdiTcdVXEaTj0oCkAQwothOUzdtSOSQQ8A9MwBn8vIXiTWlME6B7TD4XkB7ga1Dt+5O7CLOjt1AFQeEmNNo3q5XnC6kYU/s+7etNFFR/A4ksOi3jsPl9P+kNgaMNQU/tyvD51yEqmEv46GepoFerDd2/YKDCZB8yM7yGLQkT6Ug/J0jDzSct38drKIN48SbZCL/msvS9DrRj2rnlaTcwpD5tHsXzAMOeri9HS0irkE98RcOP4WA3rHKyMx0/NI+EanKacuvKPWi4tl/ZNDIBtNNuw7R7E7UYDL1caKw2D4IkBgAtIFfrNFyjYzG9/4KvYQ/6+sfrPi9oSwzm/kNgK67M2QzgW9sHBvq3Sk1JUL6ofVp7L40mx8AC69XCvSQIk2CzZw8xJ8nvZcibYq5Q2nva0nUN/j8QUbJCeDLDupALvGvzqvlPwhFf0ANDS1Gcv4w=
+  - REGISTRY_USER=snake007 REGISTRY_PASS=
+  - secure: fPTNjmDJxEu7nKga8ZtpEVlVlFx6d+Gh3/N5+MlIs4MHs84MKt8kMnFqUOb0Hi4bPmFInGdJ7IICm0h9dEzPMhxgeqLxaRq6Gl0Muj/BAOyj8zKPeDyRQocFPz0wWvmHZsoQnNBJRRJ9pY2AfkKsFIMxuiRtL8D5SsxV7SYdx2y7+7xCcU+fe8MB+Z+mf5jwZVf/0RbF1lNfVdxrEueggCJYEnSvf81Qs3nwOan0p3WwsDFXUwkd5PWc9HFItnte9RzvsNUa+eWf0LS5l21wpKJmmPY3I0rgyplCm7LsnqtrC84jlbGApylwUFy9cFAa4Ev8zc/Cwabx7uy6YCqacb3KsUlRZ/ixJaytWX6WvtW3/l3jkX67yGA/p8M2uxrvVz4+iQFrSKQUnFSVSEkNfdrTUuOsvejKmzGPJ9Br9jlLi6oA/boCcKafMS/6XRBEQsDNPq/WdBrhUUKS9h6EE/+T3VJk4DbyR6Y7pS5jmTVEUknILPXb9hXNWjvik5gsNKM571hUNfMiszv40udPvayNXFy8E+GcD39LRzri+pcb37WTK1GExpnF6vjuqBy9HNEQydroPUiuBzeflJkOLbozo5yFhHeSu9KiXaq4g7zF6CQgRL48DnIsBUwUOu7atKjRsOmQAEkyrraL1EoV097orPtSTgmfoQ9jYGT8CRQ=
 before_script:
-  - docker pull snakehomeorganization/app1 || true
-  - docker pull snakehomeorganization/app2 || true
-script:
-  - docker build --pull --cache-from snakehomeorganization/app1 --tag snakehomeorganization/app1 -f Dockerfile .
-  - docker build --pull --cache-from snakehomeorganization/app1 --tag snakehomeorganization/app2 -f Dockerfile2 .
-  - docker run -dti --rm -p 9000:9000 snakehomeorganization/app1
-  - docker run -dti --rm -p 7000:7000 snakehomeorganization/app2
+- docker pull snakehomeorganization/app1 || true
+- docker pull snakehomeorganization/app2 || true
 after_script:
 - docker images
 before_deploy:
