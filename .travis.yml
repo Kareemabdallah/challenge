@@ -5,14 +5,12 @@ jobs:
   - go: master
   fast_finish: true
 install:
-- 
+- # skip
 script:
-- docker build --pull --cache-from snakehomeorganization/app1 --tag snakehomeorganization/app1
-  -f Dockerfile .
-- docker build --pull --cache-from snakehomeorganization/app1 --tag snakehomeorganization/app2
-  -f Dockerfile2 .
-- docker run -dti --rm -p 9000:9000 snakehomeorganization/app1
-- docker run -dti --rm -p 7000:7000 snakehomeorganization/app2
+    - go get -t -v ./...
+    - diff -u <(echo -n) <(gofmt -d -s .)
+    - go tool vet .
+    - go test -v -race ./...
 sudo: required
 services:
 - docker
@@ -20,9 +18,27 @@ env:
   global:
   - REGISTRY_USER=snake007 REGISTRY_PASS=
   - secure: fPTNjmDJxEu7nKga8ZtpEVlVlFx6d+Gh3/N5+MlIs4MHs84MKt8kMnFqUOb0Hi4bPmFInGdJ7IICm0h9dEzPMhxgeqLxaRq6Gl0Muj/BAOyj8zKPeDyRQocFPz0wWvmHZsoQnNBJRRJ9pY2AfkKsFIMxuiRtL8D5SsxV7SYdx2y7+7xCcU+fe8MB+Z+mf5jwZVf/0RbF1lNfVdxrEueggCJYEnSvf81Qs3nwOan0p3WwsDFXUwkd5PWc9HFItnte9RzvsNUa+eWf0LS5l21wpKJmmPY3I0rgyplCm7LsnqtrC84jlbGApylwUFy9cFAa4Ev8zc/Cwabx7uy6YCqacb3KsUlRZ/ixJaytWX6WvtW3/l3jkX67yGA/p8M2uxrvVz4+iQFrSKQUnFSVSEkNfdrTUuOsvejKmzGPJ9Br9jlLi6oA/boCcKafMS/6XRBEQsDNPq/WdBrhUUKS9h6EE/+T3VJk4DbyR6Y7pS5jmTVEUknILPXb9hXNWjvik5gsNKM571hUNfMiszv40udPvayNXFy8E+GcD39LRzri+pcb37WTK1GExpnF6vjuqBy9HNEQydroPUiuBzeflJkOLbozo5yFhHeSu9KiXaq4g7zF6CQgRL48DnIsBUwUOu7atKjRsOmQAEkyrraL1EoV097orPtSTgmfoQ9jYGT8CRQ=
-before_script:
-- docker pull snakehomeorganization/app1 || true
-- docker pull snakehomeorganization/app2 || true
+  env:
+    - CHANGE_MINIKUBE_NONE_USER=true
+  before_script:
+ - curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.7.0/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
+ - curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
+ - sudo minikube start --vm-driver=none --kubernetes-version=v1.7.0
+ - minikube update-context
+ - kubectl cluster-info
+ - docker pull snakehomeorganization/app1 || true
+ - docker pull snakehomeorganization/app2 || true
+script:
+- docker build --pull --cache-from snakehomeorganization/app1 --tag snakehomeorganization/app1 -f Dockerfile .
+- docker build --pull --cache-from snakehomeorganization/app1 --tag snakehomeorganization/app2 -f Dockerfile2 .
+- docker run -dti --rm -p 9000:9000 snakehomeorganization/app1
+- docker run -dti --rm -p 7000:7000 snakehomeorganization/app2
+- kubectl delete deployment app1
+- kubectl delete deployment app2
+- kubectl delete service app1
+- kubectl delete service app2
+- kubectl apply -f deploy.yml
+- kubectl apply -f deploy2.yml
 after_script:
 - docker images
 before_deploy:

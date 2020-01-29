@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/Kareemabdallah/challenge.svg?branch=master)](https://travis-ci.org/Kareemabdallah/challenge)
+[![Go Report Card](https://goreportcard.com/badge/github.com/Kareemabdallah/challenge)](https://goreportcard.com/report/github.com/Kareemabdallah/challenge)
 
 # Challenge
 

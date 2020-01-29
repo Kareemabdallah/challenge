@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app2
+spec:
+  selector:
+    matchLabels:
+      app: app2
+      tier: app2
+      track: stable
+  template:
+    metadata:
+      labels:
+        app: app2
+        tier: app2
+        track: stable
+    spec:
+      containers:
+        - name: app2
+          image: snakehomeorganization/app2
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 7000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app2
+spec:
+  type: NodePort
+  selector:
+    app: app2
+    tier: app2
+  ports:
+  - protocol: TCP
+    port: 7000
+    targetPort: http
+    nodePort: 30001

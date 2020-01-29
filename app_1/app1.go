@@ -10,7 +10,8 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func GetArticles(w http.ResponseWriter, r *http.Request) {
+// Reading JSON string and encoding data
+func getarticles(w http.ResponseWriter, r *http.Request) {
 
 	byteValue, _ := ioutil.ReadFile("static/db.json")
 	data := json.RawMessage(string(byteValue)) // declaring a data string parsing data as raw
@@ -22,7 +23,7 @@ func GetArticles(w http.ResponseWriter, r *http.Request) {
 func main() {
 
 	router := mux.NewRouter() // HTTP request multiplexer
-	router.HandleFunc("/", GetArticles).Methods("GET")
+	router.HandleFunc("/", getarticles).Methods("GET")
 	log.Println("Listening on localhost:9000")
 	log.Fatal(http.ListenAndServe(":9000", router))
 }
